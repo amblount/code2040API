@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Reverse</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.js"></script>
+  </head>
+  <body>
+    <h3>Hi!</h3>
+    <h3>I am Alivia and here is my solution to the reverse a string challenge.</h3>
+    <h2>When you are ready lets retrieve our string </h2>
+    <button type="button" name="button" id="getString">Get String</button>
+
+    <p id="string"></p>
+
+    <!-- JS function GET string -->
+    <script type="text/javascript">
+
+    // Create the XHR object.
+      // function createCORSRequest(method, url) {
+      //   var xhr = new XMLHttpRequest();
+      //   if ("withCredentials" in xhr) {
+      //     // XHR for Chrome/Firefox/Opera/Safari.
+      //     xhr.open(method, url, true);
+      //   } else if (typeof XDomainRequest != "undefined") {
+      //     // XDomainRequest for IE.
+      //     xhr = new XDomainRequest();
+      //     xhr.open(method, url);
+      //   } else {
+      //     // CORS not supported.
+      //     xhr = null;
+      //   }
+      //   return xhr;
+      // }
+      //
+      // // Helper method to parse the title tag from the response.
+      // function getTitle(text) {
+      //   return text.match('<title>(.*)?</title>')[1];
+      // }
+      //
+      // // Make the actual CORS request.
+      // function makeCorsRequest() {
+      //   // This is a sample server that supports CORS.
+      //   var url = 'http://challenge.code2040.org/api/reverse?token=917cf8410513d1256d5c3024403ae85d';
+      //
+      //   var xhr = createCORSRequest('POST', url);
+      //   if (!xhr) {
+      //     alert('CORS not supported');
+      //     return;
+      //   }
+      //
+      //   // Response handlers.
+      //   xhr.onload = function() {
+      //     var text = xhr.responseText;
+      //     var title = getTitle(text);
+      //     alert('Response from CORS request to ' + url + ': ' + title);
+      //   };
+      //
+      //   xhr.onerror = function() {
+      //     alert('Woops, there was an error making the request.');
+      //   };
+      //
+      //   xhr.send();
+      // }
+
+  // Response handlers.
+
+
+    $(document).ready(function(){
+      var string;
+     $("#getString").click(function(){
+
+       var sendToken = {
+         'token': "917cf8410513d1256d5c3024403ae85d"
+       };
+
+      function getStringFromCode2040(cb) {
+        $.ajax({
+          type: 'POST',
+          method: 'POST',
+          dataType: 'json',
+          url: "http://challenge.code2040.org/api/reverse?token=" + sendToken.token,
+          data: sendToken,
+          headers: {
+            "Access-Control-Allow-Origin": "*"
+          },
+          success: function(data){
+            console.log("Made it here")
+            console.log(data)
+            cb(data);
+          }
+        });
+      }
+
+      getStringFromCode2040(function(string) {
+        alert(string);
+      })
+
+      var reversedString = reverse(string);
+
+      var sendReversedString = {
+        'token': "917cf8410513d1256d5c3024403ae85d",
+        'string': reversedString
+      };
+
+      $.ajax({
+        type: 'POST',
+        dataType: 'jsonp',
+        url: 'http://challenge.code2040.org/api/reverse/validate',
+        data: sendReversedString,
+        headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+        success: function(){
+          console.log("success!")
+        }
+      });
+     });
+
+    //  var Foo = function() { return this; };
+    //  Foo.prototype.methodName = function () {
+    //    alert("fff");
+    //  };
+     //
+    //  var cookie = new Foo();
+    //  cookie.methodName();
+
+     function reverse(input){
+       var array = input.split("");
+       var reverseArray = array.reverse();
+       var joinArray = reverseArray.join("");
+       return joinArray;
+     };
+    });
+
+    </script>
+
+  </body>
+</html>
