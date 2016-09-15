@@ -1,0 +1,22 @@
+{
+  "name": "code-api",
+  "version": "1.0.0",
+  "description": "API Challenge for 2017 fellowship",
+  "main": "reverse2.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amblount/code2040API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amblount/code2040API/issues"
+  },
+  "homepage": "https://github.com/amblount/code2040API#readme",
+  "dependencies": {
+    "request": "^2.74.0"
+  }
+}
