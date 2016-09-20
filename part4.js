@@ -6,24 +6,18 @@ var token = "917cf8410513d1256d5c3024403ae85d";
 var nonPrefixStrings = [];
 var prefix, array, length;
 
-
-function findNonPrefixStrings(obj){
-  // body data from first call was a string need to parse to JSON
+// method to parse object
+function parseObj(obj){
   obj = JSON.parse(obj)
   prefix = obj["prefix"];
   array = obj["array"];
-  length = prefix.lenth;
-  console.log(prefix);
-  for(var i = 0; i < array.length; i++){
-    temp = array[i].substring(0, length);
-    if(temp != prefix){
-      nonPrefixStrings.push(array[1]);
-    }
-  }
-  return result
+  length = prefix.length;
+  nonPrefixStrings = array.filter(function(word) {
+    return prefix !== word.substring(0, length);
+  });
+  console.log(nonPrefixStrings)
+  return nonPrefixStrings;
 };
-
-
 
 var firstReq = {
   url: baseurl,
@@ -47,7 +41,7 @@ function success(err, res, body) {
   }
   console.log("res was", body);
   obj = body;
-  secondReq.form.needle = nonPrefixStrings(obj)
+  secondReq.form.array = parseObj(obj)
   request.post(secondReq, function(err, res, body){
     if (err) {
       return console.error('upload failed:', err);
