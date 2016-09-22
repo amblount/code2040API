@@ -6,6 +6,23 @@ var token = "917cf8410513d1256d5c3024403ae85d";
 var nonPrefixStrings = [];
 var prefix, array, length;
 
+// get back a string from the success
+// need to parse it into json
+function success(err, res, body) {
+  if (err) {
+    return console.error('upload failled:', err);
+  }
+  console.log("res was", body);
+  secondReq.form.array = parseObj(body);
+  console.log(secondReq);
+  request.post(secondReq, function(err, res, body){
+    if (err) {
+      return console.error('upload failed:', err);
+    }
+    console.log("res 2 was", body);
+  })
+}
+
 // method to parse object
 function parseObj(obj){
   obj = JSON.parse(obj)
@@ -16,6 +33,8 @@ function parseObj(obj){
     return prefix !== word.substring(0, length);
   });
   console.log(nonPrefixStrings)
+  console.log(Array.isArray(nonPrefixStrings));
+
   return nonPrefixStrings;
 };
 
@@ -29,25 +48,9 @@ var firstReq = {
 var secondReq = {
   url: baseurl + "/validate",
   form: {
-    token: token
+    token: token,
+    array: ""
   }
-}
-
-// get back a string from the success
-// need to parse it into json
-function success(err, res, body) {
-  if (err) {
-    return console.error('upload failled:', err);
-  }
-  console.log("res was", body);
-  obj = body;
-  secondReq.form.array = parseObj(obj)
-  request.post(secondReq, function(err, res, body){
-    if (err) {
-      return console.error('upload failed:', err);
-    }
-    console.log("res 2 was", body);
-  })
 }
 
 request.post(firstReq, success)
