@@ -15,13 +15,16 @@ function success(err, res, body) {
   }
   console.log("res was", body);
   secondReq.form.array = parseObj(body);
-  console.log(secondReq);
   console.log(secondReq.form.array)
   request.post(secondReq, function(err, res, body){
+      console.log(secondReq);
     if (err) {
       return console.error('upload failed:', err);
     }
     // console.log("res 2 was", body);
+    console.log("second request was: ", secondReq);
+    console.log(res.body)
+
   })
 }
 
@@ -49,6 +52,9 @@ var firstReq = {
 }
 
 var secondReq = {
+  headers: {
+    token: token
+  },
   url: baseurl + "/validate",
   form: {
     token: token,
@@ -59,4 +65,3 @@ var secondReq = {
 request.post(firstReq, success)
 console.log("firstrequest was: ", firstReq);
 console.log("=================================================")
-console.log("second request was: ", secondReq);
