@@ -5,6 +5,7 @@ var baseurl = "http://challenge.code2040.org/api/prefix";
 var token = "917cf8410513d1256d5c3024403ae85d";
 var nonPrefixStrings = [];
 var prefix, array, length;
+var answer;
 
 // get back a string from the success
 // need to parse it into json
@@ -14,12 +15,16 @@ function success(err, res, body) {
   }
   console.log("res was", body);
   secondReq.form.array = parseObj(body);
-  console.log(secondReq);
+  // console.log(secondReq.form.array)
+  console.log(res.headers);
   request.post(secondReq, function(err, res, body){
+      console.log(secondReq);
     if (err) {
       return console.error('upload failed:', err);
     }
-    console.log("res 2 was", body);
+    // console.log("res 2 was", body);
+    console.log("second request was: ", secondReq);
+    console.log(res.body);
   })
 }
 
@@ -32,9 +37,10 @@ function parseObj(obj){
   nonPrefixStrings = array.filter(function(word) {
     return prefix !== word.substring(0, length);
   });
-  console.log(nonPrefixStrings)
-  console.log(Array.isArray(nonPrefixStrings));
+  // console.log(nonPrefixStrings)
+  // console.log(Array.isArray(nonPrefixStrings));
 
+  answer = nonPrefixStrings;
   return nonPrefixStrings;
 };
 
@@ -46,11 +52,20 @@ var firstReq = {
 }
 
 var secondReq = {
+  headers: {
+    // type: 'POST',
+    // token: token
+    // 'content-type': 'x-www-form-urlencoded'
+  },
   url: baseurl + "/validate",
+  array: answer,
+  // token: token,
   form: {
     token: token,
-    array: ""
+    array: answer
   }
 }
 
-request.post(firstReq, success)
+request.post(firstReq).pipe(request.post(secondReq));/* success)*/
+console.log("firstrequest was: ", firstReq);
+console.log("=================================================")
