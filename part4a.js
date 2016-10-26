@@ -1,6 +1,5 @@
 // Alivia Blount
 var request = require('request');
-var http = require('http');
 var baseurl = "http://challenge.code2040.org/api/prefix";
 var token = "917cf8410513d1256d5c3024403ae85d";
 var nonPrefixStrings = [];

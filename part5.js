@@ -41,7 +41,7 @@ function parseObj(obj){
   // convert the miliseconds number into DATE obj
   var date = new Date(dateInMiliSeconds)
   // convert back to ISO string
-  iso860date = date.toISOString()
+  iso860date = date.toISOString().split('.')[0] + 'Z'
 
   console.log(iso860date);
   return iso860date;
@@ -60,4 +60,3 @@ var secondReq = {
     datestamp: iso860date
   }
 };
-request.post(baseurl, firstReq, success);
